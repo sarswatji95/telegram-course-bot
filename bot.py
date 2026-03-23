@@ -1,5 +1,4 @@
 import os
-import asyncio
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 
@@ -64,13 +63,12 @@ async def main():
     app.add_handler(CallbackQueryHandler(button))
 
     print("Bot started ✅")
+
+    await app.initialize()
+    await app.start()
     await app.run_polling()
 
-# RUN BOT (FIXED EVENT LOOP)
+# RUN BOT (SAFE)
 if __name__ == "__main__":
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    try:
-        loop.run_until_complete(main())
-    finally:
-        loop.close()
+    import asyncio
+    asyncio.run(main())
